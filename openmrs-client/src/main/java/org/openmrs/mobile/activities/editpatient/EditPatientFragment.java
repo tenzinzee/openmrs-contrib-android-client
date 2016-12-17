@@ -26,12 +26,14 @@ import org.openmrs.mobile.models.retrofit.Patient;
 import org.openmrs.mobile.models.retrofit.Person;
 import org.openmrs.mobile.models.retrofit.PersonAddress;
 import org.openmrs.mobile.models.retrofit.PersonName;
+import org.openmrs.mobile.utilities.DateUtils;
 import org.openmrs.mobile.utilities.StringUtils;
 import org.openmrs.mobile.utilities.ToastUtil;
 import org.openmrs.mobile.utilities.ViewUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -202,9 +204,6 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
 
         person.setBirthdate(birthdate);
 
-//        final Patient patient = new Patient();
-//        patient.setPerson(person);
-//        patient.setUuid(" ");
         Patient currentPatient = new PatientDAO().findPatientByID(id);
         currentPatient.setPerson(person);
         return currentPatient;
@@ -269,6 +268,23 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
         edfname.setText(person.getName().getGivenName(), defaultBuffer);
         edmname.setText(person.getName().getMiddleName(), defaultBuffer);
         edlname.setText(person.getName().getFamilyName(), defaultBuffer);
+
+        DateFormat desiredDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String patientDOB = DateUtils.getDOBFromPatient(mPresenter.getPatientId(), desiredDateFormat);
+        eddob.setText(patientDOB);
+
+        edaddr1.setText(person.getAddress().getAddress1());
+        edaddr2.setText(person.getAddress().getAddress2());
+        edcity.setText(person.getAddress().getCityVillage());
+        edstate.setText(person.getAddress().getStateProvince());
+        edcountry.setText(person.getAddress().getCountry());
+        edpostal.setText(person.getAddress().getPostalCode());
+
+        if (person.getGender().compareToIgnoreCase("M") == 0) {
+            gen.check(R.id.male);
+        } else if (person.getGender().compareToIgnoreCase("F") == 0) {
+            gen.check(R.id.female);
+        }
     }
 
     private void addListeners() {
@@ -285,14 +301,14 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
 
                 @Override
                 public void onClick(View v) {
-                    Calendar currentDate=Calendar.getInstance();
-                    int cYear=currentDate.get(Calendar.YEAR);
-                    int cMonth=currentDate.get(Calendar.MONTH);
-                    int cDay=currentDate.get(Calendar.DAY_OF_MONTH);
+                    Person person = new PatientDAO().findPatientByID(mPresenter.getPatientId()).getPerson();
+
+                    int cYear = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.YEAR_VALUE);
+                    int cMonth = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.MONTH_VALUE);
+                    int cDay = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.DAY_VALUE);
 
                     edmonth.getText().clear();
                     edyr.getText().clear();
-
 
                     DatePickerDialog mDatePicker=new DatePickerDialog(EditPatientFragment.this.getActivity(), new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {

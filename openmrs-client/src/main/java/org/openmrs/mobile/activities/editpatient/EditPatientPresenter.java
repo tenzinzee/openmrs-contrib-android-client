@@ -32,6 +32,8 @@ public class EditPatientPresenter implements EditPatientContract.Presenter{
         if(validate(patient)) {
             mEditPatientView.setProgressBarVisibility(true);
             mEditPatientView.hideSoftKeys();
+
+            new PatientDAO().updatePatient(patient.getId(), patient);
         } else {
             mEditPatientView.scrollToTop();
         }
