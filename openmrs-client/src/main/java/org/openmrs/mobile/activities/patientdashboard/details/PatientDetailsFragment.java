@@ -14,11 +14,12 @@
 
 package org.openmrs.mobile.activities.patientdashboard.details;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +29,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.openmrs.mobile.R;
+import org.openmrs.mobile.activities.editpatient.EditPatientActivity;
 import org.openmrs.mobile.activities.patientdashboard.PatientDashboardActivity;
 import org.openmrs.mobile.activities.patientdashboard.PatientDashboardContract;
 import org.openmrs.mobile.models.retrofit.Patient;
@@ -80,8 +82,17 @@ public class PatientDetailsFragment extends Fragment implements PatientDashboard
                 mPresenter.deletePatient();
                 this.getActivity().finish();
                 break;
+            case R.id.actionEditData:
+                startPatientEditActivity(mPresenter.getPatient());
+                break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startPatientEditActivity(Patient patient) {
+        Intent editPatient = new Intent(this.getActivity(), EditPatientActivity.class);
+        editPatient.putExtra(ApplicationConstants.BundleKeys.PATIENT_ID_BUNDLE, patient.getId());
+        startActivity(editPatient);
     }
 
     @Override

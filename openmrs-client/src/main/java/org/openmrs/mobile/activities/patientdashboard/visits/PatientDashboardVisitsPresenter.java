@@ -112,6 +112,11 @@ public class PatientDashboardVisitsPresenter implements PatientDashboardContract
     }
 
     @Override
+    public Patient getPatient() {
+        return mPatient;
+    }
+
+    @Override
     public void deletePatient() {
         new PatientDAO().deletePatient(mPatient.getId());
     }

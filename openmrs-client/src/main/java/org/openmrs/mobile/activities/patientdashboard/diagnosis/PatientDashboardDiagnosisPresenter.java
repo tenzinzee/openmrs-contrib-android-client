@@ -60,6 +60,11 @@ public class PatientDashboardDiagnosisPresenter implements PatientDashboardContr
     }
 
     @Override
+    public Patient getPatient() {
+        return mPatient;
+    }
+
+    @Override
     public void deletePatient() {
         new PatientDAO().deletePatient(mPatient.getId());
     }
