@@ -30,18 +30,12 @@ public class EditPatientPresenter implements EditPatientContract.Presenter{
     @Override
     public void confirm(Patient patient) {
         if(validate(patient)) {
+            editPatient();
             mEditPatientView.setProgressBarVisibility(true);
             mEditPatientView.hideSoftKeys();
-
-            new PatientDAO().updatePatient(patient.getId(), patient);
         } else {
             mEditPatientView.scrollToTop();
         }
-    }
-
-    @Override
-    public void finishEditActivity() {
-        mEditPatientView.finishEditActivity();
     }
 
     private boolean validate(Patient patient) {
@@ -90,7 +84,7 @@ public class EditPatientPresenter implements EditPatientContract.Presenter{
 
     @Override
     public void editPatient() {
-        new PatientApi().registerPatient(mPatient, new DefaultResponseCallbackListener() {
+        new PatientApi().updatePatient(mPatient, new DefaultResponseCallbackListener() {
             @Override
             public void onResponse() {
                 mEditPatientView.finishEditActivity();

@@ -367,38 +367,16 @@
                                 android:textSize="14sp" />
 
                         </LinearLayout>
-                        <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="20dp"-->
-                        <!--android:layout_marginLeft="12dp"-->
-                        <!--android:textSize="18sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:textColor="#555"-->
-                        <!--android:text="@string/reg_ques_phno"/>-->
-
-                        <!--<EditText-->
-                        <!--android:id="@+id/phone"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginLeft="20dp"-->
-                        <!--android:layout_marginRight="20dp"-->
-                        <!--android:layout_marginBottom="20dp"-->
-                        <!--android:textSize="14sp"-->
-                        <!--android:focusable="true"-->
-                        <!--android:hint="@string/phone_hint"-->
-                        <!--android:inputType="phone"-->
-                        <!--android:singleLine="true" />-->
                     </LinearLayout>
 
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/registerConfirm"
+                        android:id="@+id/updateConfirm"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:backgroundTint="@color/primary"
-                        android:text="Register"
+                        android:text="Update Patient"
                         android:textColor="@color/white" />
 
                 </LinearLayout>

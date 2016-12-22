@@ -14,14 +14,14 @@
 
 package org.openmrs.mobile.utilities;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.openmrs.mobile.application.OpenMRS;
-import org.openmrs.mobile.dao.PatientDAO;
-import org.openmrs.mobile.models.retrofit.Person;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -31,10 +31,6 @@ public final class DateUtils {
 
     private static final String OPEN_MRS_RESPONSE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
     public static final String OPEN_MRS_REQUEST_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-
-    public static final int DAY_VALUE = 0;
-    public static final int MONTH_VALUE = 1;
-    public static final int YEAR_VALUE = 2;
 
     public static final Long ZERO = 0L;
 
@@ -82,47 +78,19 @@ public final class DateUtils {
         return time;
     }
 
+    public static DateTime convertTimeString (String dateAsString) {
+        DateTime date = null;
+        if (StringUtils.notNull(dateAsString)) {
+            DateTimeFormatter originalFormat = DateTimeFormat.forPattern(DateUtils.OPEN_MRS_REQUEST_FORMAT);
+            date = originalFormat.parseDateTime(dateAsString);
+        }
+        return date;
+    }
+
     public static String convertTime1(String dateAsString, String dateFormat) {
         if (StringUtils.notNull(dateAsString) && StringUtils.notEmpty(dateAsString)) {
             return convertTime(convertTime(dateAsString), dateFormat, TimeZone.getDefault());
         }
         return dateAsString;
-    }
-
-    public static int getPatientDateData(String patientDOBString, int partOfDate) {
-        String dob = patientDOBString.split("T")[0];
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-
-        Date date = new Date();
-        try {
-            date = format.parse(dob);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-
-        if (partOfDate == DAY_VALUE) {
-            return Calendar.DAY_OF_MONTH;
-        } else if (partOfDate == MONTH_VALUE) {
-            return Calendar.MONTH + 1;
-        } else if (partOfDate == YEAR_VALUE) {
-            return  Calendar.YEAR;
-        }
-        return 0;
-    }
-
-    public static String getDOBFromPatient (String Id, DateFormat format) {
-        Person person = new PatientDAO().findPatientByID(Id).getPerson();
-        String originalDateString = person.getBirthdate().split("T")[0];
-        DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        try {
-            date = originalFormat.parse(originalDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String newDateString = format.format(date);
-        return newDateString;
     }
 }

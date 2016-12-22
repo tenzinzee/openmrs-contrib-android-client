@@ -27,15 +27,11 @@ public interface EditPatientContract {
         void hideSoftKeys();
 
         void setProgressBarVisibility(boolean visibility);
-
-        void showUpgradeRegistrationModuleInfo();
     }
 
     interface Presenter extends BasePresenter {
 
         void confirm(Patient patient);
-
-        void finishEditActivity();
 
         void editPatient();
 

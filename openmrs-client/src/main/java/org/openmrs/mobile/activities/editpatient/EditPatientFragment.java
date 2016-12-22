@@ -28,11 +28,8 @@ import org.openmrs.mobile.models.retrofit.PersonAddress;
 import org.openmrs.mobile.models.retrofit.PersonName;
 import org.openmrs.mobile.utilities.DateUtils;
 import org.openmrs.mobile.utilities.StringUtils;
-import org.openmrs.mobile.utilities.ToastUtil;
 import org.openmrs.mobile.utilities.ViewUtils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +66,9 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
     TextView gendererror;
     TextView addrerror;
 
-    Button registerConfirm;
+    Button updateConfirm;
+
+    private static boolean mDobInitialized = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,6 +76,7 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
         View root = inflater.inflate(R.layout.fragment_patient_edit, container, false);
         resolveViews(root);
         addListeners();
+        setFormValues();
         return root;
     }
 
@@ -144,8 +144,8 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
     }
 
     /**
-     * This creates a new patient. Make a new method that given ID will edit patient
-     * @return
+     * This updates an existing patient.
+     * @return updated patient
      */
     private Patient updatePatient(String id) {
         Person person = new Person();
@@ -197,16 +197,15 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
                 person.setBirthdateEstimated(true);
                 birthdate = bdt.toString();
             }
-        }
-        else {
+        } else {
             birthdate = bdt.toString();
         }
 
         person.setBirthdate(birthdate);
 
-        Patient currentPatient = new PatientDAO().findPatientByID(id);
-        currentPatient.setPerson(person);
-        return currentPatient;
+        Patient updatedPatient = new PatientDAO().findPatientByID(id);
+        updatedPatient.setPerson(person);
+        return updatedPatient;
     }
 
     @Override
@@ -222,11 +221,6 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
     @Override
     public void setProgressBarVisibility(boolean visibility) {
         progressBar.setVisibility(visibility ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void showUpgradeRegistrationModuleInfo() {
-        ToastUtil.notifyLong(getResources().getString(R.string.registration_core_info));
     }
 
     public static EditPatientFragment newInstance() {
@@ -256,9 +250,7 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
         gendererror=(TextView)v.findViewById(R.id.gendererror);
         addrerror=(TextView)v.findViewById(R.id.addrerror);
 
-        registerConfirm= (Button) v.findViewById(R.id.registerConfirm);
-
-        setFormValues();
+        updateConfirm = (Button) v.findViewById(R.id.updateConfirm);
     }
 
     private void setFormValues() {
@@ -269,9 +261,11 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
         edmname.setText(person.getName().getMiddleName(), defaultBuffer);
         edlname.setText(person.getName().getFamilyName(), defaultBuffer);
 
-        DateFormat desiredDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String patientDOB = DateUtils.getDOBFromPatient(mPresenter.getPatientId(), desiredDateFormat);
-        eddob.setText(patientDOB);
+        if (StringUtils.notNull(person.getBirthdate()) || StringUtils.notEmpty(person.getBirthdate())) {
+            bdt = DateUtils.convertTimeString(person.getBirthdate());
+            eddob.setText(DateUtils.convertTime(DateUtils.convertTime(bdt.toString(), DateUtils.OPEN_MRS_REQUEST_FORMAT),
+                        DateUtils.DEFAULT_DATE_FORMAT));
+        }
 
         edaddr1.setText(person.getAddress().getAddress1());
         edaddr2.setText(person.getAddress().getAddress2());
@@ -280,9 +274,9 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
         edcountry.setText(person.getAddress().getCountry());
         edpostal.setText(person.getAddress().getPostalCode());
 
-        if (person.getGender().compareToIgnoreCase("M") == 0) {
+        if (person.getGender().compareToIgnoreCase("m") == 0) {
             gen.check(R.id.male);
-        } else if (person.getGender().compareToIgnoreCase("F") == 0) {
+        } else if (person.getGender().compareToIgnoreCase("f") == 0) {
             gen.check(R.id.female);
         }
     }
@@ -301,27 +295,30 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
 
                 @Override
                 public void onClick(View v) {
-                    Person person = new PatientDAO().findPatientByID(mPresenter.getPatientId()).getPerson();
-
-                    int cYear = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.YEAR_VALUE);
-                    int cMonth = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.MONTH_VALUE);
-                    int cDay = DateUtils.getPatientDateData(person.getBirthdate(), DateUtils.DAY_VALUE);
-
+                    int cYear = 0;
+                    int cMonth = 0;
+                    int cDay = 0;
+                    if (bdt != null) {
+                        cYear = bdt.getYear();
+                        cMonth = bdt.getMonthOfYear() - 1;
+                        cDay = bdt.getDayOfMonth();
+                    }
                     edmonth.getText().clear();
                     edyr.getText().clear();
 
                     DatePickerDialog mDatePicker=new DatePickerDialog(EditPatientFragment.this.getActivity(), new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                            eddob.setText(selectedday+"/"+selectedmonth+"/"+selectedyear);
-                            birthdate = new LocalDate(selectedyear, selectedmonth, selectedday);
-                            bdt=birthdate.toDateTimeAtStartOfDay().toDateTime();
+                            selectedmonth++;
+                            eddob.setText(selectedday+"/"+(selectedmonth)+"/"+selectedyear);
+                            birthdate = new LocalDate(selectedyear, (selectedmonth), selectedday);
+                            bdt = birthdate.toDateTimeAtStartOfDay().toDateTime();
                         }
                     },cYear, cMonth, cDay);
                     mDatePicker.setTitle("Select Date");
                     mDatePicker.show();  }
             });
         }
-        registerConfirm.setOnClickListener(new View.OnClickListener() {
+        updateConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPresenter.confirm(updatePatient(mPresenter.getPatientId()));
