@@ -62,7 +62,7 @@
                                 android:layout_weight="1"
                                 android:focusable="true"
                                 android:hint="@string/reg_firstname_hint"
-                                android:inputType="text"
+                                android:inputType="textPersonName|textCapWords"
                                 android:maxLines="1"
                                 android:textSize="14sp" />
 
@@ -73,8 +73,8 @@
                                 android:layout_weight="1"
                                 android:focusable="true"
                                 android:hint="@string/reg_midname_hint"
-                                android:inputType="text"
-                                android:singleLine="true"
+                                android:inputType="textPersonName|textCapWords"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
 
@@ -103,7 +103,7 @@
                             android:layout_marginRight="20dp"
                             android:focusable="true"
                             android:hint="@string/reg_surname_hint"
-                            android:inputType="text"
+                            android:inputType="textPersonName|textCapWords"
                             android:maxLines="1"
                             android:textSize="14sp" />
 
@@ -193,7 +193,7 @@
                             android:focusable="false"
                             android:hint="@string/dob_hint"
                             android:inputType="text"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             android:textSize="14sp" />
 
                         <TextView
@@ -221,7 +221,7 @@
                                 android:focusable="true"
                                 android:hint="@string/estyr"
                                 android:inputType="number"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                             <EditText
@@ -232,7 +232,7 @@
                                 android:focusable="true"
                                 android:hint="@string/estmonth"
                                 android:inputType="number"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -287,7 +287,7 @@
                             android:focusable="true"
                             android:hint="@string/addr1_hint"
                             android:inputType="text"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             android:textSize="14sp" />
 
                         <EditText
@@ -300,7 +300,7 @@
                             android:focusable="true"
                             android:hint="@string/addr2_hint"
                             android:inputType="text"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             android:textSize="14sp" />
 
                         <LinearLayout
@@ -319,7 +319,7 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_city_label"
                                 android:inputType="text"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                             <EditText
@@ -330,7 +330,7 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_state_label"
                                 android:inputType="text"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
@@ -351,7 +351,7 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_country_label"
                                 android:inputType="text"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                             <EditText
@@ -363,7 +363,7 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_postal_label"
                                 android:inputType="text"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textSize="14sp" />
 
                         </LinearLayout>

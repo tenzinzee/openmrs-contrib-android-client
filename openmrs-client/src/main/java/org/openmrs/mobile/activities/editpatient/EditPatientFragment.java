@@ -68,8 +68,6 @@ public class EditPatientFragment extends Fragment implements EditPatientContract
 
     Button updateConfirm;
 
-    private static boolean mDobInitialized = false;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

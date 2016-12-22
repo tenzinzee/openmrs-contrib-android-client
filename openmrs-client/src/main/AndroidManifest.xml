@@ -187,7 +187,6 @@
             android:name=".activities.editpatient.EditPatientActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/action_edit_patient_data"
-            android:parentActivityName=".activities.editpatient.EditPatientActivity"
             android:theme="@style/AppTheme">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
