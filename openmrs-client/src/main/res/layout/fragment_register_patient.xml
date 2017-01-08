@@ -76,6 +76,8 @@
                                 android:focusable="true"
                                 android:hint="@string/reg_firstname_hint"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/middlename"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -87,6 +89,8 @@
                                 android:focusable="true"
                                 android:hint="@string/reg_midname_hint"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/surname"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -117,6 +121,8 @@
                             android:focusable="true"
                             android:hint="@string/reg_surname_hint"
                             android:inputType="text"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/gender"
                             android:singleLine="true"
                             android:textSize="14sp" />
 
@@ -159,7 +165,8 @@
                             android:id="@+id/gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp">
+                            android:layout_marginLeft="20dp"
+                            android:nextFocusForward="@+id/dob">
 
                             <RadioButton
                                 android:id="@+id/male"
@@ -206,6 +213,8 @@
                             android:focusable="false"
                             android:hint="@string/dob_hint"
                             android:inputType="text"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/estyr"
                             android:singleLine="true"
                             android:textSize="14sp" />
 
@@ -234,6 +243,8 @@
                                 android:focusable="true"
                                 android:hint="@string/estyr"
                                 android:inputType="number"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/estmonth"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -245,6 +256,8 @@
                                 android:focusable="true"
                                 android:hint="@string/estmonth"
                                 android:inputType="number"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/addr1"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -312,6 +325,8 @@
                             android:focusable="true"
                             android:hint="@string/addr1_hint"
                             android:inputType="text"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/addr2"
                             android:singleLine="true"
                             android:textSize="14sp" />
 
@@ -325,6 +340,8 @@
                             android:focusable="true"
                             android:hint="@string/addr2_hint"
                             android:inputType="text"
+                            android:imeOptions="actionNext"
+                            android:nextFocusForward="@+id/city"
                             android:singleLine="true"
                             android:textSize="14sp" />
 
@@ -344,6 +361,8 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_city_label"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/state"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -355,6 +374,8 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_state_label"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/country"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -376,6 +397,8 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_country_label"
                                 android:inputType="text"
+                                android:imeOptions="actionNext"
+                                android:nextFocusForward="@+id/postal"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 
@@ -388,6 +411,7 @@
                                 android:focusable="true"
                                 android:hint="@string/patient_postal_label"
                                 android:inputType="text"
+                                android:imeOptions="actionDone"
                                 android:singleLine="true"
                                 android:textSize="14sp" />
 

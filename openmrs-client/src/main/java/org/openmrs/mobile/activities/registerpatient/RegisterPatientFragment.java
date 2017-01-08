@@ -20,9 +20,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,6 +55,8 @@ import org.openmrs.mobile.utilities.ViewUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static org.openmrs.mobile.R.id.surname;
 
 public class RegisterPatientFragment extends Fragment implements RegisterPatientContract.View {
 
@@ -278,7 +282,7 @@ public class RegisterPatientFragment extends Fragment implements RegisterPatient
     private void resolveViews(View v) {
         edfname = (EditText) v.findViewById(R.id.firstname);
         edmname = (EditText) v.findViewById(R.id.middlename);
-        edlname = (EditText) v.findViewById(R.id.surname);
+        edlname = (EditText) v.findViewById(surname);
         eddob=(EditText)v.findViewById(R.id.dob);
         edyr=(EditText)v.findViewById(R.id.estyr);
         edmonth=(EditText)v.findViewById(R.id.estmonth);
@@ -354,6 +358,27 @@ public class RegisterPatientFragment extends Fragment implements RegisterPatient
         TextWatcher textWatcher = new RegisterPatientBirthdateValidatorWatcher(eddob, edmonth, edyr);
         edmonth.addTextChangedListener(textWatcher);
         edyr.addTextChangedListener(textWatcher);
+
+        edpostal.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    registerConfirm.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        edpostal.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if (keyCode == KeyEvent.KEYCODE_TAB) {
+                    registerConfirm.performClick();
+                }
+                return false;
+            }
+        });
     }
 
 }
